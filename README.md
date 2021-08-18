@@ -3,6 +3,7 @@
 
 ### Tdd란 ###
 Tdd는 테스트가 개발을 주도한다. 테스트 코드를 작성하고 나면 그것을 통과할 만큼의 코드만을 작성하기 떄문에 테스트 코드에 의해 개발 범위가 정해지기 때문이다.
+Tdd를 통해 빠른 피드백이 가능해지고, 이는 잘못된 코드가 배포되는 것을 방지한다.
 
 #### 흐름 ####    
 1.  기능을 검증하는 테스트 코드를 먼저 작성한다.
@@ -33,6 +34,45 @@ Tdd는 테스트가 개발을 주도한다. 테스트 코드를 작성하고 나
 규칙을 따라보도록 하자. 정해진 기능 하나에 집중할 수 있게 되어 점진적인 진척의 밑거름이 되어 줄 것이다.    
 검증하는 코드(`assert()`)를 먼저 작성하는 것도 테스트 코드 작성이 한결 용이해지는 방법이다.
 
+### JUnit ###
+-Test접미사를 붙여 다른 클래스와 테스트 클래스를 구분해준다.   
+`@Test` : 테스트 실행 메소드. <b>private이면 안된다.</b>   
 
-### 장점 ###
-- 빠른 피드백이 가능해진다. 이는 잘못된 코드가 배포되는 것을 방지한다.
+#### 단언 메소드 ####   
+- `assertEquals(expected, actual)`   
+- `assertNotEquals(unexpected, actual)`   
+- `assertSame(expected, actual)`   
+- `assertNotSame(unexpected, actual)`   
+- `assertTrue(boolean)`
+- `assertFalse(boolean)`
+- `assertNull(acutal)`   
+- `assertNotNull(actual)`   
+- `fail()` : 테스트 실패 처리하는 메소드로 테스트 실패를 알리고 싶을 때 사용한다.   
+- `assertThrows(Class<T> expectedType, Executable executable)` : executable을 실행한 결과로 지정한 타입의 예외가 발생하는 지 검사.   
+- `assertDoesNotThrow(Executable executable)` : executable실행 결과로 예외가 발생하지 않는지 검사.
+- `assertAll(Executable executable)` : 모든 검증을 실행하고, 실행 결과로 실패한 것을 에러 메시지로 보여줌.(assert()메소드는 도중에 실패하면 바로 예외 발생시켜 그 이후의 검증을 진행하지 않는다)   
+
+#### 테스트 라이프 사이클 ####
+1. @BeforeAll    
+   클래스의 모든 테스트 메서드 실행 전 딱 한번 실행.   
+   <b> 정적 메소드에만 가능 </b>
+2. 테스트 메소드를 포함하는 객체 생성   
+3. @BeforeEach    
+   테스트 메소드 실행에 필요한 준비 작업 수행.   
+   예를 들어 > 테스트에서 사용할 임시 파일이나 객체 생성.   
+   <b>private이면 안된다.</b>   
+4. @Test 메소드 1개
+5. @AfterEach   
+테스트 수행 후 정리하는 작업 수행.   
+   예를 들어 > 테스트에서 사용한 임시 파일 삭제.   
+   <b>private이면 안된다.</b>   
+   
+6. @AfterAll   
+클래스의 모든 테스트 메서드 실행한 뒤 딱 한번 실행.   
+   <b>정적 메소드에만 가능</b>
+
+JUnit은 테스트 메소드의 실행 순서를 지정하는 방법을 제공하지만, <B>테스트 메서드는 각각 독립적으로 
+동작해야한다 </B> 한 메서드의 실행 결과가 다른 메서드의 동작에 영향을 주어서는 안된다.
+
+
+
